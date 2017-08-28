@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/blunt"
+        android:title="Blunt" />
+    <item
+        android:id="@+id/bong"
+        android:title="Bong" />
+    <item
+        android:id="@+id/gb"
+        android:title="Gravity Bong" />
+    <item
+        android:id="@+id/joint"
+        android:title="Joint" />
+    <item
+        android:id="@+id/pipe"
+        android:title="Pipe" />
+
+
+
+</menu>

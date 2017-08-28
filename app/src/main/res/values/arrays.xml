@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="methods">
+        <item>Blunt</item>
+        <item>Bong</item>
+        <item>Gravity Bong</item>
+        <item>Joint</item>
+        <item>Pipe</item>
+    </string-array>
+</resources>
