@@ -68,13 +68,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //get number picker
-        NumberPicker np = (NumberPicker) findViewById(R.id.np);
-        np.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-
-            }
-        });
 
         //set On click for the buttons
         Button buttonOk = (Button) findViewById(R.id.button_ok);
@@ -133,6 +126,21 @@ public class MainActivity extends AppCompatActivity {
                     view.setPadding(0,32,0,0);
 
                     final LinearLayout amoutLayout = (LinearLayout) findViewById(R.id.amount_layout);
+                    final NumberPicker npOnes = (NumberPicker) findViewById(R.id.np_ones);
+                    final NumberPicker npTenths = (NumberPicker) findViewById(R.id.np_tenths);
+                    final NumberPicker npHundredths = (NumberPicker) findViewById(R.id.np_hundredths);
+                    final NumberPicker npUnits = (NumberPicker) findViewById(R.id.np_unit);
+
+                    setNumberPickerRange(npOnes,0,99);
+                    setNumberPickerRange(npTenths,0,9);
+                    setNumberPickerRange(npHundredths,0,9);
+
+                    final String[] units = {"g","oz"};
+
+                    npUnits.setDisplayedValues(units);
+                    npUnits.setMinValue(0);
+                    npUnits.setMaxValue(units.length - 1);
+                    npUnits.setWrapSelectorWheel(false);
 
                     //shows amount layout after 0.5 seconds
                     final Handler handler = new Handler();
@@ -140,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             amoutLayout.setVisibility(View.VISIBLE);
+
+
                         }
                     }, 500);
 
@@ -175,6 +185,13 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    public void setNumberPickerRange(NumberPicker np, int min, int max) {
+        np.setMinValue(min);
+        np.setMaxValue(max);
+        np.setWrapSelectorWheel(true);
+
     }
 
     @Override
