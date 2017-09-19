@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,17 +24,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.shawnlin.numberpicker.NumberPicker;
 import com.transitionseverywhere.ArcMotion;
 import com.transitionseverywhere.ChangeBounds;
 import com.transitionseverywhere.Fade;
 import com.transitionseverywhere.TransitionManager;
 import com.transitionseverywhere.TransitionSet;
 import com.transitionseverywhere.extra.Scale;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         //get number picker
 
         //set On click for the buttons
-        Button buttonOk = (Button) findViewById(R.id.button_ok);
+        final Button buttonOk = (Button) findViewById(R.id.button_ok);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,15 +129,113 @@ public class MainActivity extends AppCompatActivity {
 
                     view.setPadding(0,32,0,0);
 
-                    final LinearLayout amoutLayout = (LinearLayout) findViewById(R.id.amount_layout);
+                    final LinearLayout amountLayout = (LinearLayout) findViewById(R.id.amount_layout);
                     final NumberPicker npOnes = (NumberPicker) findViewById(R.id.np_ones);
                     final NumberPicker npTenths = (NumberPicker) findViewById(R.id.np_tenths);
                     final NumberPicker npHundredths = (NumberPicker) findViewById(R.id.np_hundredths);
                     final NumberPicker npUnits = (NumberPicker) findViewById(R.id.np_unit);
+                    final TextView amountTextview = (TextView) findViewById(R.id.amount_textview);
 
                     setNumberPickerRange(npOnes,0,99);
+                    npOnes.setWrapSelectorWheel(false);
                     setNumberPickerRange(npTenths,0,9);
                     setNumberPickerRange(npHundredths,0,9);
+
+
+
+
+                    npOnes.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                        @Override
+                        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(npOnes.getValue());
+                            sb.append(".");
+                            sb.append(npTenths.getValue());
+                            sb.append(npHundredths.getValue());
+                            if (npUnits.getValue() == 0) sb.append("g");
+                            else sb.append("oz");
+                            final String number = sb.toString();
+                            amountTextview.setText(number);
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buttonOk.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }, 500);
+                        }
+                    });
+
+                    npTenths.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                        @Override
+                        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(npOnes.getValue());
+                            sb.append(".");
+                            sb.append(npTenths.getValue());
+                            sb.append(npHundredths.getValue());
+                            if (npUnits.getValue() == 0) sb.append("g");
+                            else sb.append("oz");
+                            String number = sb.toString();
+                            amountTextview.setText(number);
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buttonOk.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }, 500);
+                        }
+                    });
+                    npHundredths.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                        @Override
+                        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(npOnes.getValue());
+                            sb.append(".");
+                            sb.append(npTenths.getValue());
+                            sb.append(npHundredths.getValue());
+                            if (npUnits.getValue() == 0) sb.append("g");
+                            else sb.append("oz");
+                            String number = sb.toString();
+                            amountTextview.setText(number);
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buttonOk.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }, 500);
+                        }
+                    });
+                    npUnits.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                        @Override
+                        public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                            StringBuilder sb = new StringBuilder();
+                            sb.append(npOnes.getValue());
+                            sb.append(".");
+                            sb.append(npTenths.getValue());
+                            sb.append(npHundredths.getValue());
+                            if (npUnits.getValue() == 0) sb.append("g");
+                            else sb.append("oz");
+                            String number = sb.toString();
+                            amountTextview.setText(number);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    buttonOk.setVisibility(View.VISIBLE);
+
+
+                                }
+                            }, 500);
+                        }
+                    });
 
                     final String[] units = {"g","oz"};
 
@@ -147,11 +249,11 @@ public class MainActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            amoutLayout.setVisibility(View.VISIBLE);
+                            amountLayout.setVisibility(View.VISIBLE);
 
 
                         }
-                    }, 500);
+                    }, 1000);
 
                 }
             });
@@ -190,7 +292,10 @@ public class MainActivity extends AppCompatActivity {
     public void setNumberPickerRange(NumberPicker np, int min, int max) {
         np.setMinValue(min);
         np.setMaxValue(max);
-        np.setWrapSelectorWheel(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            np.setShowDividers(NumberPicker.SHOW_DIVIDER_NONE);
+            np.setDividerColor(Color.parseColor("#00ffffff"));
+        }
 
     }
 
