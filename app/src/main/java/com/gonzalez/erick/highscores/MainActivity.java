@@ -127,19 +127,21 @@ public class MainActivity extends AppCompatActivity {
                         else item.setVisibility(View.GONE);
                     }
 
-                    view.setPadding(0,32,0,0);
+                    view.setPadding(0,8,0,0);
 
                     final LinearLayout amountLayout = (LinearLayout) findViewById(R.id.amount_layout);
                     final NumberPicker npOnes = (NumberPicker) findViewById(R.id.np_ones);
                     final NumberPicker npTenths = (NumberPicker) findViewById(R.id.np_tenths);
                     final NumberPicker npHundredths = (NumberPicker) findViewById(R.id.np_hundredths);
                     final NumberPicker npUnits = (NumberPicker) findViewById(R.id.np_unit);
+                    final NumberPicker npMembers = (NumberPicker) findViewById(R.id.np_members);
                     final TextView amountTextview = (TextView) findViewById(R.id.amount_textview);
+                    final LinearLayout buttonLayout = (LinearLayout) findViewById(R.id.button_layout);
 
                     setNumberPickerRange(npOnes,0,99);
-                    npOnes.setWrapSelectorWheel(false);
                     setNumberPickerRange(npTenths,0,9);
                     setNumberPickerRange(npHundredths,0,9);
+                    setNumberPickerRange(npMembers,1,99);
 
 
 
@@ -157,14 +159,17 @@ public class MainActivity extends AppCompatActivity {
                             final String number = sb.toString();
                             amountTextview.setText(number);
 
-                            new Handler().postDelayed(new Runnable() {
+                            TransitionManager.beginDelayedTransition(buttonLayout);
+                            buttonOk.setVisibility(View.VISIBLE);
+                            buttonOk.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    buttonOk.setVisibility(View.VISIBLE);
-
-
+                                public void onClick(View v) {
+                                    amountLayout.setVisibility(View.GONE);
+                                    Toast toast = Toast.makeText(getApplication(), "\"Data saved\"", Toast.LENGTH_LONG);
+                                    toast.show();
                                 }
-                            }, 500);
+                            });
+
                         }
                     });
 
@@ -181,14 +186,16 @@ public class MainActivity extends AppCompatActivity {
                             String number = sb.toString();
                             amountTextview.setText(number);
 
-                            new Handler().postDelayed(new Runnable() {
+                            TransitionManager.beginDelayedTransition(buttonLayout);
+                            buttonOk.setVisibility(View.VISIBLE);
+                            buttonOk.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    buttonOk.setVisibility(View.VISIBLE);
-
-
+                                public void onClick(View v) {
+                                    amountLayout.setVisibility(View.GONE);
+                                    Toast toast = Toast.makeText(getApplication(), "\"Data saved\"", Toast.LENGTH_LONG);
+                                    toast.show();
                                 }
-                            }, 500);
+                            });
                         }
                     });
                     npHundredths.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -204,14 +211,16 @@ public class MainActivity extends AppCompatActivity {
                             String number = sb.toString();
                             amountTextview.setText(number);
 
-                            new Handler().postDelayed(new Runnable() {
+                            TransitionManager.beginDelayedTransition(buttonLayout);
+                            buttonOk.setVisibility(View.VISIBLE);
+                            buttonOk.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    buttonOk.setVisibility(View.VISIBLE);
-
-
+                                public void onClick(View v) {
+                                    amountLayout.setVisibility(View.GONE);
+                                    Toast toast = Toast.makeText(getApplication(), "\"Data saved\"", Toast.LENGTH_LONG);
+                                    toast.show();
                                 }
-                            }, 500);
+                            });
                         }
                     });
                     npUnits.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -226,14 +235,17 @@ public class MainActivity extends AppCompatActivity {
                             else sb.append("oz");
                             String number = sb.toString();
                             amountTextview.setText(number);
-                            new Handler().postDelayed(new Runnable() {
+
+                            TransitionManager.beginDelayedTransition(buttonLayout);
+                            buttonOk.setVisibility(View.VISIBLE);
+                            buttonOk.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void run() {
-                                    buttonOk.setVisibility(View.VISIBLE);
-
-
+                                public void onClick(View v) {
+                                    amountLayout.setVisibility(View.GONE);
+                                    Toast toast = Toast.makeText(getApplication(), "\"Data saved\"", Toast.LENGTH_LONG);
+                                    toast.show();
                                 }
-                            }, 500);
+                            });
                         }
                     });
 
@@ -242,18 +254,17 @@ public class MainActivity extends AppCompatActivity {
                     npUnits.setDisplayedValues(units);
                     npUnits.setMinValue(0);
                     npUnits.setMaxValue(units.length - 1);
+                    npUnits.setShowDividers(NumberPicker.SHOW_DIVIDER_NONE);
                     npUnits.setWrapSelectorWheel(false);
 
-                    //shows amount layout after 0.5 seconds
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             amountLayout.setVisibility(View.VISIBLE);
 
-
                         }
-                    }, 1000);
+                    }, 500);
 
                 }
             });
@@ -292,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
     public void setNumberPickerRange(NumberPicker np, int min, int max) {
         np.setMinValue(min);
         np.setMaxValue(max);
+        np.setWrapSelectorWheel(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             np.setShowDividers(NumberPicker.SHOW_DIVIDER_NONE);
             np.setDividerColor(Color.parseColor("#00ffffff"));
